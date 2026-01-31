@@ -43,5 +43,13 @@ namespace webBackendGP.Controllers
             var courses = await _enrollmentService.GetStudentCoursesAsync(id);
             return Ok(courses);
         }
+
+        [HttpGet("course/{id}")]
+        [Authorize(Roles = "Admin,Instructor")]
+        public async Task<ActionResult<IEnumerable<EnrollmentResponseDto>>> GetCourseEnrollments(int id)
+        {
+            var enrollments = await _enrollmentService.GetCourseEnrollmentsAsync(id);
+            return Ok(enrollments);
+        }
     }
 }

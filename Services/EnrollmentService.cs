@@ -36,6 +36,25 @@ namespace webBackendGP.Services
             });
         }
 
+        public async Task<IEnumerable<EnrollmentResponseDto>> GetCourseEnrollmentsAsync(int courseId)
+        {
+            var enrollments = await _context.Enrollments
+                .Include(e => e.Student)
+                .Include(e => e.Course)
+                .Where(e => e.CourseId == courseId)
+                .ToListAsync();
+
+            return enrollments.Select(e => new EnrollmentResponseDto
+            {
+                Id = e.Id,
+                StudentId = e.StudentId,
+                StudentName = e.Student?.Name ?? "",
+                CourseId = e.CourseId,
+                CourseName = e.Course?.Title ?? "",
+                EnrollmentDate = e.EnrollmentDate
+            });
+        }
+
         public async Task<EnrollmentResponseDto?> EnrollStudentAsync(EnrollmentDto enrollmentDto)
         {
             // Check if already enrolled

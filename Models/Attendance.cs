@@ -15,6 +15,10 @@ namespace webBackendGP.Models
         [ForeignKey("CourseId")]
         public Course? Course { get; set; }
 
+        public int? LectureId { get; set; }
+        [ForeignKey("LectureId")]
+        public Lecture? Lecture { get; set; }
+
         public DateTime Date { get; set; }
 
         public bool IsPresent { get; set; }

@@ -15,6 +15,7 @@ namespace webBackendGP.Data
         public DbSet<Attendance> Attendances { get; set; }
         public DbSet<Grade> Grades { get; set; }
         public DbSet<Schedule> Schedules { get; set; }
+        public DbSet<Lecture> Lectures { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

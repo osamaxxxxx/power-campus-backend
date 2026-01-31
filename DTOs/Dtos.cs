@@ -25,6 +25,7 @@ namespace webBackendGP.DTOs
 
     public class AuthResponseDto
     {
+        public int Id { get; set; }
         public string Token { get; set; } = string.Empty;
         public string Role { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
@@ -131,6 +132,7 @@ namespace webBackendGP.DTOs
     {
         public int StudentId { get; set; }
         public int CourseId { get; set; }
+        public int? LectureId { get; set; }
         public DateTime Date { get; set; }
         public bool IsPresent { get; set; }
     }
@@ -142,7 +144,35 @@ namespace webBackendGP.DTOs
         public string StudentName { get; set; } = string.Empty;
         public int CourseId { get; set; }
         public string CourseName { get; set; } = string.Empty;
+        public int? LectureId { get; set; }
+        public string? LectureTitle { get; set; }
         public DateTime Date { get; set; }
         public bool IsPresent { get; set; }
+    }
+
+    // Lecture DTOs
+    public class CreateLectureDto
+    {
+        [Required]
+        public int CourseId { get; set; }
+        [Required]
+        public string Title { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+        [Required]
+        public DateTime Date { get; set; }
+        public TimeSpan StartTime { get; set; }
+        public TimeSpan EndTime { get; set; }
+    }
+
+    public class LectureResponseDto
+    {
+        public int Id { get; set; }
+        public int CourseId { get; set; }
+        public string CourseName { get; set; } = string.Empty;
+        public string Title { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+        public DateTime Date { get; set; }
+        public TimeSpan StartTime { get; set; }
+        public TimeSpan EndTime { get; set; }
     }
 }

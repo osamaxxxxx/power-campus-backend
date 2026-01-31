@@ -68,7 +68,8 @@ namespace webBackendGP.Services
             var enrollment = new Enrollment
             {
                 StudentId = studentId,
-                CourseId = courseId
+                CourseId = courseId,
+                EnrollmentDate = DateTime.UtcNow
             };
 
             await _enrollmentRepo.AddAsync(enrollment);

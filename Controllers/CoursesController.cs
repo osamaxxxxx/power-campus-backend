@@ -51,7 +51,7 @@ namespace webBackendGP.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Instructor")]
         public async Task<IActionResult> DeleteCourse(int id)
         {
             var success = await _courseService.DeleteCourseAsync(id);
@@ -65,10 +65,28 @@ namespace webBackendGP.Controllers
         [Authorize(Roles = "Student")]
         public async Task<IActionResult> Enroll(int courseId)
         {
-            var userIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (string.IsNullOrEmpty(userIdString)) return Unauthorized();
+            var claims = User.FindAll(ClaimTypes.NameIdentifier).ToList();
+            claims.AddRange(User.FindAll("sub"));
+            claims.AddRange(User.FindAll("id"));
 
-            if (!int.TryParse(userIdString, out int studentId)) return BadRequest("Invalid User ID");
+            int studentId = 0;
+            bool found = false;
+
+            foreach (var claim in claims)
+            {
+                if (int.TryParse(claim.Value, out int id))
+                {
+                    studentId = id;
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) 
+            {
+                 // Fallback for debugging if still not found, though unlikely
+                return BadRequest("Invalid User ID: Could not find a numeric ID in token claims.");
+            }
 
             var success = await _courseService.EnrollStudentAsync(studentId, courseId);
             if (!success) return BadRequest("Already enrolled or failed to enroll");

@@ -33,6 +33,7 @@ namespace webBackendGP.Services
             var token = GenerateJwtToken(user);
             return new AuthResponseDto
             {
+                Id = user.Id,
                 Token = token,
                 Role = user.Role.ToString(),
                 Name = user.Name
