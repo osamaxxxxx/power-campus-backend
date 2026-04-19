@@ -1,9 +1,20 @@
-# Power Campus Backend
+# Power Campus
 
-Course Management System - Backend API built with .NET 9.0 Web API
+Power Campus is a comprehensive Course Management and Attendance System. It consists of three main components: a .NET 9.0 Backend API, a React/Vite Frontend, and a Raspberry Pi-based Face Recognition Attendance System.
 
-## Features
+## Project Structure
 
+- **Backend**: .NET 9.0 Web API providing core business logic, user management, and data persistence.
+- **Frontend**: React application (built with Vite) serving as the main user interface for students, instructors, and administrators.
+- **RPiFaceAttendance**: Python application for Raspberry Pi using YOLOv8 and DeepFace for biometric student attendance tracking.
+
+---
+
+## 1. Backend (.NET 9.0 Web API)
+
+The backend provides a robust API for managing users, courses, enrollments, schedules, grades, and attendance.
+
+### Features
 - **Authentication & Authorization** - JWT-based authentication with role-based access control
 - **User Management** - Admin, Instructor, and Student roles
 - **Course Management** - Create, update, and manage courses
@@ -12,86 +23,82 @@ Course Management System - Backend API built with .NET 9.0 Web API
 - **Grades** - Grade submission and reporting
 - **Attendance** - Attendance tracking system
 
-## Tech Stack
-
+### Tech Stack
 - .NET 9.0 Web API
 - Entity Framework Core
 - SQL Server
 - JWT Authentication
 - Swagger/OpenAPI
 
-## API Endpoints
-
-### Authentication
-- `POST /api/auth/login` - User login
-- `POST /api/auth/register` - User registration
-
-### User Management (Admin)
-- `GET /api/users` - List all users
-- `POST /api/users` - Create user
-- `PUT /api/users/{id}` - Update user
-- `DELETE /api/users/{id}` - Delete user
-
-### Courses
-- `GET /api/courses` - List all courses
-- `GET /api/courses/available` - Available courses
-- `POST /api/courses` - Create course
-- `PUT /api/courses/{id}` - Update course
-- `DELETE /api/courses/{id}` - Delete course
-
-### Enrollment
-- `GET /api/enrollments/students/{id}/courses` - Student's courses
-- `POST /api/enrollments` - Enroll student
-- `DELETE /api/enrollments/{id}` - Drop course
-
-### Scheduling
-- `GET /api/schedule/student/{id}` - Student schedule
-- `GET /api/schedule/doctor/{id}` - Instructor schedule
-- `POST /api/schedule` - Create schedule
-- `PUT /api/schedule/{id}` - Update schedule
-- `DELETE /api/schedule/{id}` - Delete schedule
-
-### Grades
-- `GET /api/grades/student/{id}` - Student grades
-- `GET /api/grades/course/{id}` - Course grades
-- `POST /api/grades` - Submit grades
-
-### Attendance
-- `GET /api/attendance/student/{id}` - Student attendance
-- `GET /api/attendance/course/{id}` - Course attendance
-- `POST /api/attendance` - Mark attendance
-
-## Getting Started
-
-### Prerequisites
-- .NET 9.0 SDK
-- SQL Server
-
-### Installation
-
-1. Clone the repository:
-```bash
-git clone https://github.com/osamaxxxxx/power-campus-backend.git
-cd power-campus-backend
-```
-
-2. Update connection string in `appsettings.json`
-
+### Getting Started (Backend)
+1. Navigate to the backend root directory.
+2. Update the connection string in `appsettings.json`.
 3. Run migrations:
-```bash
-dotnet ef database update
-```
-
+   ```bash
+   dotnet ef database update
+   ```
 4. Run the application:
-```bash
-dotnet run
-```
+   ```bash
+   dotnet run
+   ```
+5. Access Swagger UI at `https://localhost:7065` (or the configured port).
 
-5. Access Swagger UI at `https://localhost:7065`
+---
 
-## Configuration
+## 2. Frontend (React + Vite)
 
-Update `appsettings.json` with your database connection string and JWT settings.
+The frontend provides an intuitive UI for the Power Campus system, including responsive design and dark mode support.
+
+### Tech Stack
+- React 18
+- Vite
+- React Router DOM
+- Axios
+- Lucide React (Icons)
+- CSS (Custom styling with Dark Mode)
+
+### Getting Started (Frontend)
+1. Navigate to the `frontend` directory:
+   ```bash
+   cd frontend
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
+
+---
+
+## 3. RPi Face Attendance System (Python)
+
+A standalone application designed to run on a Raspberry Pi (or PC) to capture student faces and automatically record attendance.
+
+### Tech Stack
+- Python 3.x
+- YOLOv8 (Face detection)
+- DeepFace (Face recognition)
+- Tkinter (GUI)
+- Requests (API communication)
+
+### Getting Started (RPi Face Attendance)
+1. Navigate to the `RPiFaceAttendance` directory:
+   ```bash
+   cd RPiFaceAttendance
+   ```
+2. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+3. Run the application:
+   ```bash
+   python src/main.py
+   ```
+
+---
 
 ## License
 
