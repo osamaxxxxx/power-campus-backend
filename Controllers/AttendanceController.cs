@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using webBackendGP.DTOs;
+using webBackendGP.Hubs;
 using webBackendGP.Services;
 
 namespace webBackendGP.Controllers
@@ -11,10 +13,12 @@ namespace webBackendGP.Controllers
     public class AttendanceController : ControllerBase
     {
         private readonly IAttendanceService _attendanceService;
+        private readonly IHubContext<AttendanceHub> _hubContext;
 
-        public AttendanceController(IAttendanceService attendanceService)
+        public AttendanceController(IAttendanceService attendanceService, IHubContext<AttendanceHub> hubContext)
         {
             _attendanceService = attendanceService;
+            _hubContext = hubContext;
         }
 
         [HttpGet("student/{id}")]
@@ -40,7 +44,28 @@ namespace webBackendGP.Controllers
             if (attendance == null)
                 return BadRequest("Failed to mark attendance");
 
+            // Broadcast real-time update
+            await _hubContext.Clients.All.SendAsync("AttendanceMarked", attendance);
+
             return Ok(attendance);
+        }
+
+        [HttpPost("session/start")]
+        [Authorize(Roles = "Admin,Instructor")]
+        public async Task<IActionResult> StartSession(SessionStartDto sessionStartDto)
+        {
+            // Broadcast session started
+            await _hubContext.Clients.All.SendAsync("SessionStarted", sessionStartDto);
+            return Ok(new { message = "Session started" });
+        }
+
+        [HttpPost("session/stop")]
+        [Authorize(Roles = "Admin,Instructor")]
+        public async Task<IActionResult> StopSession()
+        {
+            // Broadcast session ended
+            await _hubContext.Clients.All.SendAsync("SessionEnded");
+            return Ok(new { message = "Session stopped" });
         }
     }
 }

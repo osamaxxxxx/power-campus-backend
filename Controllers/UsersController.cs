@@ -63,5 +63,15 @@ namespace webBackendGP.Controllers
 
             return Ok(new { message = "User deleted successfully" });
         }
+
+        [HttpPost("{id}/reset-password")]
+        public async Task<IActionResult> ResetPassword(int id, ResetPasswordDto resetDto)
+        {
+            var success = await _userService.ResetPasswordAsync(id, resetDto.NewPassword);
+            if (!success)
+                return NotFound("User not found");
+
+            return Ok(new { message = "Password reset successfully" });
+        }
     }
 }

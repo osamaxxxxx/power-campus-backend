@@ -7,5 +7,6 @@ namespace webBackendGP.Services
         Task<IEnumerable<GradeResponseDto>> GetStudentGradesAsync(int studentId);
         Task<IEnumerable<GradeResponseDto>> GetCourseGradesAsync(int courseId);
         Task<GradeResponseDto?> SubmitGradeAsync(CreateGradeDto gradeDto);
+        Task<GradeResponseDto?> UpdateGradeAsync(int id, UpdateGradeDto updateDto);
     }
 }

@@ -107,5 +107,16 @@ namespace webBackendGP.Services
             await _userRepository.SaveChangesAsync();
             return true;
         }
+
+        public async Task<bool> ResetPasswordAsync(int id, string newPassword)
+        {
+            var user = await _userRepository.GetByIdAsync(id);
+            if (user == null) return false;
+
+            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(newPassword);
+            _userRepository.Update(user);
+            await _userRepository.SaveChangesAsync();
+            return true;
+        }
     }
 }

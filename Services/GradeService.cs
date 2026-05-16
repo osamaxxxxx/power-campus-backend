@@ -96,5 +96,44 @@ namespace webBackendGP.Services
                 Percentage = savedGrade.MaxScore > 0 ? (savedGrade.Score / savedGrade.MaxScore) * 100 : 0
             };
         }
+
+        public async Task<GradeResponseDto?> UpdateGradeAsync(int id, UpdateGradeDto updateDto)
+        {
+            var grade = await _gradeRepository.GetByIdAsync(id);
+            if (grade == null) return null;
+
+            if (updateDto.AssignmentName != null)
+                grade.AssignmentName = updateDto.AssignmentName;
+
+            if (updateDto.Score.HasValue)
+                grade.Score = updateDto.Score.Value;
+
+            if (updateDto.MaxScore.HasValue)
+                grade.MaxScore = updateDto.MaxScore.Value;
+
+            _gradeRepository.Update(grade);
+            await _gradeRepository.SaveChangesAsync();
+
+            // Reload with navigation properties
+            var updatedGrade = await _context.Grades
+                .Include(g => g.Student)
+                .Include(g => g.Course)
+                .FirstOrDefaultAsync(g => g.Id == id);
+
+            if (updatedGrade == null) return null;
+
+            return new GradeResponseDto
+            {
+                Id = updatedGrade.Id,
+                StudentId = updatedGrade.StudentId,
+                StudentName = updatedGrade.Student?.Name ?? "",
+                CourseId = updatedGrade.CourseId,
+                CourseName = updatedGrade.Course?.Title ?? "",
+                AssignmentName = updatedGrade.AssignmentName,
+                Score = updatedGrade.Score,
+                MaxScore = updatedGrade.MaxScore,
+                Percentage = updatedGrade.MaxScore > 0 ? (updatedGrade.Score / updatedGrade.MaxScore) * 100 : 0
+            };
+        }
     }
 }

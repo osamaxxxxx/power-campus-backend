@@ -9,5 +9,6 @@ namespace webBackendGP.Services
         Task<UserResponseDto?> CreateUserAsync(RegisterDto registerDto);
         Task<UserResponseDto?> UpdateUserAsync(int id, UpdateUserDto updateDto);
         Task<bool> DeleteUserAsync(int id);
+        Task<bool> ResetPasswordAsync(int id, string newPassword);
     }
 }

@@ -42,5 +42,16 @@ namespace webBackendGP.Controllers
 
             return CreatedAtAction(nameof(GetStudentGrades), new { id = gradeDto.StudentId }, grade);
         }
+
+        [HttpPut("{id}")]
+        [Authorize(Roles = "Admin,Instructor")]
+        public async Task<ActionResult<GradeResponseDto>> UpdateGrade(int id, UpdateGradeDto gradeDto)
+        {
+            var grade = await _gradeService.UpdateGradeAsync(id, gradeDto);
+            if (grade == null)
+                return NotFound("Grade not found");
+
+            return Ok(grade);
+        }
     }
 }

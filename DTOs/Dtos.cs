@@ -58,6 +58,13 @@ namespace webBackendGP.DTOs
         public double MaxScore { get; set; }
     }
 
+    public class UpdateGradeDto
+    {
+        public string? AssignmentName { get; set; }
+        public double? Score { get; set; }
+        public double? MaxScore { get; set; }
+    }
+
     public class GradeResponseDto
     {
         public int Id { get; set; }
@@ -86,6 +93,12 @@ namespace webBackendGP.DTOs
         public string? Email { get; set; }
         public string? Password { get; set; }
         public UserRole? Role { get; set; }
+    }
+
+    public class ResetPasswordDto
+    {
+        [Required]
+        public string NewPassword { get; set; } = string.Empty;
     }
 
     // Enrollment DTOs
